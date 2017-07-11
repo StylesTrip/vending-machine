@@ -18,21 +18,18 @@ public class VendingMachine {
 
     public boolean acceptCoin(Coin coin) {
 
-        if (coin.getSizeInches() == Coin.PENNY.getSizeInches()  &&
-                coin.getMassGrams() == Coin.PENNY.getMassGrams()) {
+        if (coin.getSizeInches() == Coin.QUARTER.getSizeInches() &&
+                coin.getMassGrams() == Coin.QUARTER.getMassGrams()) {
+            insertedCoinAmount += .25;
+        } else if (coin.getSizeInches() == Coin.DIME.getSizeInches() &&
+                coin.getMassGrams() == Coin.DIME.getMassGrams()) {
+            insertedCoinAmount += .10;
+        } else if (coin.getSizeInches() == Coin.NICKEL.getSizeInches() &&
+                coin.getMassGrams() == Coin.NICKEL.getMassGrams()) {
+            insertedCoinAmount += .05;
+        } else {
             rejectedCoinsToReturn.add(coin);
             return false;
-        } else {
-            if (coin.getSizeInches() == Coin.QUARTER.getSizeInches() &&
-                    coin.getMassGrams() == Coin.QUARTER.getMassGrams()) {
-                insertedCoinAmount += .25;
-            } else if (coin.getSizeInches() == Coin.DIME.getSizeInches() &&
-                    coin.getMassGrams() == Coin.DIME.getMassGrams()) {
-                insertedCoinAmount += .10;
-            } else if (coin.getSizeInches() == Coin.NICKEL.getSizeInches() &&
-                    coin.getMassGrams() == Coin.NICKEL.getMassGrams()) {
-                insertedCoinAmount += .05;
-            }
         }
 
         return true;
