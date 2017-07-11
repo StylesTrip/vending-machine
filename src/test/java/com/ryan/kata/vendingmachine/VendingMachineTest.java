@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 /**
  * Created by Styles on 7/3/17.
  */
@@ -29,5 +31,17 @@ public class VendingMachineTest {
     @Test
     public void test_vending_machine_rejects_invalid_coin_penny() {
         Assert.assertFalse(vendingMachine.acceptCoin(Coin.PENNY));
+    }
+
+    @Test
+    public void test_vending_machine_has_rejected_coins_in_coin_return() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.PENNY);
+        vendingMachine.acceptCoin(Coin.PENNY);
+
+        ArrayList<Coin> returnedCoins = vendingMachine.checkCoinReturn();
+        Assert.assertEquals(2, returnedCoins.size());
+
+        returnedCoins.forEach( coin -> Assert.assertTrue(coin == Coin.PENNY));
     }
 }
