@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class VendingMachine {
 
     private ArrayList<Coin> rejectedCoinsToReturn = new ArrayList<>();
+    private double insertedCoinAmount = 0.00;
 
     public String display() {
         return "INSERT COIN";
@@ -21,6 +22,17 @@ public class VendingMachine {
                 coin.getMassGrams() == Coin.PENNY.getMassGrams()) {
             rejectedCoinsToReturn.add(coin);
             return false;
+        } else {
+            if (coin.getSizeInches() == Coin.QUARTER.getSizeInches() &&
+                    coin.getMassGrams() == Coin.QUARTER.getMassGrams()) {
+                insertedCoinAmount += .25;
+            } else if (coin.getSizeInches() == Coin.DIME.getSizeInches() &&
+                    coin.getMassGrams() == Coin.DIME.getMassGrams()) {
+                insertedCoinAmount += .10;
+            } else if (coin.getSizeInches() == Coin.NICKEL.getSizeInches() &&
+                    coin.getMassGrams() == Coin.NICKEL.getMassGrams()) {
+                insertedCoinAmount += .05;
+            }
         }
 
         return true;
@@ -32,5 +44,9 @@ public class VendingMachine {
 
     public void removeFromCoinReturn() {
         rejectedCoinsToReturn.clear();
+    }
+
+    public double getInsertedCoinAmount() {
+        return insertedCoinAmount;
     }
 }

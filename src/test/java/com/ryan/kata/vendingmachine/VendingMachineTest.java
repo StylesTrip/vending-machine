@@ -63,4 +63,13 @@ public class VendingMachineTest {
         ArrayList<Coin> returnedCoins = vendingMachine.checkCoinReturn();
         Assert.assertEquals(0, returnedCoins.size());
     }
+
+    @Test
+    public void test_amount_changes_when_valid_coins_accepted() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.DIME);
+        vendingMachine.acceptCoin(Coin.NICKEL);
+
+        Assert.assertEquals(0.40, vendingMachine.getInsertedCoinAmount(), 0.01);
+    }
 }
