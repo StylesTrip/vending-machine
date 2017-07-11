@@ -55,4 +55,12 @@ public class VendingMachineTest {
         ArrayList<Coin> returnedCoins = vendingMachine.checkCoinReturn();
         Assert.assertEquals(0, returnedCoins.size());
     }
+
+    @Test
+    public void test_nothing_happens_when_taking_From_empty_coin_return() {
+        vendingMachine.removeFromCoinReturn();
+
+        ArrayList<Coin> returnedCoins = vendingMachine.checkCoinReturn();
+        Assert.assertEquals(0, returnedCoins.size());
+    }
 }
