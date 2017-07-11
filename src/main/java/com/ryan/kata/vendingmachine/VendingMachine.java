@@ -29,4 +29,8 @@ public class VendingMachine {
     public ArrayList<Coin> checkCoinReturn() {
         return rejectedCoinsToReturn;
     }
+
+    public void removeFromCoinReturn() {
+        rejectedCoinsToReturn.clear();
+    }
 }

@@ -44,4 +44,15 @@ public class VendingMachineTest {
 
         returnedCoins.forEach( coin -> Assert.assertTrue(coin == Coin.PENNY));
     }
+
+    @Test
+    public void test_customer_removes_coins_from_coin_return() {
+        vendingMachine.acceptCoin(Coin.PENNY);
+        vendingMachine.acceptCoin(Coin.PENNY);
+
+        vendingMachine.removeFromCoinReturn();
+
+        ArrayList<Coin> returnedCoins = vendingMachine.checkCoinReturn();
+        Assert.assertEquals(0, returnedCoins.size());
+    }
 }
