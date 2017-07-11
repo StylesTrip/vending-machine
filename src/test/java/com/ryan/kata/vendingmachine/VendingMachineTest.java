@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -70,6 +71,6 @@ public class VendingMachineTest {
         vendingMachine.acceptCoin(Coin.DIME);
         vendingMachine.acceptCoin(Coin.NICKEL);
 
-        Assert.assertEquals(0.40, vendingMachine.getInsertedCoinAmount(), 0.01);
+        Assert.assertEquals(new BigDecimal(".40"), vendingMachine.getInsertedCoinAmount());
     }
 }

@@ -2,6 +2,7 @@ package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +11,7 @@ import java.util.ArrayList;
 public class VendingMachine {
 
     private ArrayList<Coin> rejectedCoinsToReturn = new ArrayList<>();
-    private double insertedCoinAmount = 0.00;
+    private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
 
     public String display() {
         return "INSERT COIN";
@@ -20,13 +21,13 @@ public class VendingMachine {
 
         if (coin.getSizeInches() == Coin.QUARTER.getSizeInches() &&
                 coin.getMassGrams() == Coin.QUARTER.getMassGrams()) {
-            insertedCoinAmount += .25;
+            insertedCoinAmount = insertedCoinAmount.add(new BigDecimal(".25"));
         } else if (coin.getSizeInches() == Coin.DIME.getSizeInches() &&
                 coin.getMassGrams() == Coin.DIME.getMassGrams()) {
-            insertedCoinAmount += .10;
+            insertedCoinAmount = insertedCoinAmount.add(new BigDecimal(".10"));
         } else if (coin.getSizeInches() == Coin.NICKEL.getSizeInches() &&
                 coin.getMassGrams() == Coin.NICKEL.getMassGrams()) {
-            insertedCoinAmount += .05;
+            insertedCoinAmount = insertedCoinAmount.add(new BigDecimal(".05"));
         } else {
             rejectedCoinsToReturn.add(coin);
             return false;
@@ -43,7 +44,7 @@ public class VendingMachine {
         rejectedCoinsToReturn.clear();
     }
 
-    public double getInsertedCoinAmount() {
+    public BigDecimal getInsertedCoinAmount() {
         return insertedCoinAmount;
     }
 }
