@@ -12,6 +12,11 @@ public class VendingMachine {
     }
 
     public boolean acceptCoin(Coin coin) {
+        if (coin.getSizeInches() == Coin.PENNY.getSizeInches()  &&
+                coin.getMassGrams() == Coin.PENNY.getMassGrams()) {
+            return false;
+        }
+
         return true;
     }
 }

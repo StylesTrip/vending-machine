@@ -19,4 +19,10 @@ public class VendingMachineTest {
         VendingMachine vendingMachine = new VendingMachine();
         Assert.assertTrue(vendingMachine.acceptCoin(Coin.QUARTER));
     }
+
+    @Test
+    public void test_vending_machine_rejects_invalid_coin_penny() {
+        VendingMachine vendingMachine = new VendingMachine();
+        Assert.assertFalse(vendingMachine.acceptCoin(Coin.PENNY));
+    }
 }

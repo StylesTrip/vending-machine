@@ -17,4 +17,12 @@ public enum Coin {
         this.sizeInches = sizeInches;
         this.massGrams = massGrams;
     }
+
+    public double getSizeInches() {
+        return sizeInches;
+    }
+
+    public double getMassGrams() {
+        return massGrams;
+    }
 }
