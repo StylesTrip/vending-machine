@@ -73,4 +73,13 @@ public class VendingMachineTest {
 
         Assert.assertEquals(new BigDecimal(".40"), vendingMachine.getInsertedCoinAmount());
     }
+
+    @Test
+    public void test_display_updates_when_valid_coins_accepted() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.NICKEL);
+        vendingMachine.acceptCoin(Coin.PENNY);
+
+        Assert.assertEquals("Amount: 0.30", vendingMachine.display());
+    }
 }

@@ -14,7 +14,12 @@ public class VendingMachine {
     private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
 
     public String display() {
-        return "INSERT COIN";
+        if (insertedCoinAmount.equals(new BigDecimal("0.00"))) {
+            return "INSERT COIN";
+        } else {
+            return "Amount: " + insertedCoinAmount;
+        }
+
     }
 
     public boolean acceptCoin(Coin coin) {
