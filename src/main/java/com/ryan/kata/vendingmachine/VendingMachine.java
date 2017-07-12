@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class VendingMachine {
 
     private ArrayList<Coin> rejectedCoinsToReturn = new ArrayList<>();
+    private ArrayList<Coin> insertedCoins = new ArrayList<>();
     private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
 
     public String display() {
@@ -38,6 +39,8 @@ public class VendingMachine {
             return false;
         }
 
+        insertedCoins.add(coin);
+
         return true;
     }
 
@@ -51,5 +54,10 @@ public class VendingMachine {
 
     public BigDecimal getInsertedCoinAmount() {
         return insertedCoinAmount;
+    }
+
+    public void coinReturnPressed() {
+        rejectedCoinsToReturn.addAll(insertedCoins);
+        insertedCoinAmount = new BigDecimal("0.00");
     }
 }

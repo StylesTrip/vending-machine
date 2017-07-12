@@ -82,4 +82,25 @@ public class VendingMachineTest {
 
         Assert.assertEquals("Amount: 0.30", vendingMachine.display());
     }
+
+    @Test
+    public void test_coin_return_pressed_returns_coins() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.NICKEL);
+        vendingMachine.acceptCoin(Coin.PENNY);
+
+        vendingMachine.coinReturnPressed();
+
+        ArrayList<Coin> returnedCoins = vendingMachine.checkCoinReturn();
+
+        Assert.assertEquals(3, returnedCoins.size());
+    }
+
+    @Test
+    public void test_coin_return_pressed_updates_display_to_INSERT_COIN() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.coinReturnPressed();
+
+        Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
 }
