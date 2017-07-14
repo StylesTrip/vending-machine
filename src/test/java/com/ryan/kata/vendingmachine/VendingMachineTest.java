@@ -111,4 +111,12 @@ public class VendingMachineTest {
 
         Assert.assertEquals("PRICE $1.00", vendingMachine.display());
     }
+
+    @Test
+    public void test_vending_machine_displays_INSERT_COIN_when_checked_twice_with_no_money_inserted_and_item_selected() {
+        vendingMachine.selectProduct("A1");
+
+        Assert.assertEquals("PRICE $1.00", vendingMachine.display());
+        Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
 }

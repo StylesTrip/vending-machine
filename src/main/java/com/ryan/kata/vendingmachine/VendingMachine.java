@@ -16,12 +16,16 @@ public class VendingMachine {
     private String displayMessage = "INSERT COIN";
 
     public String display() {
+        String messageToDisplay;
+
         if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
-            return "Amount: " + insertedCoinAmount;
+            messageToDisplay = "Amount: " + insertedCoinAmount;
         } else {
-            return displayMessage;
+            messageToDisplay = displayMessage;
+            displayMessage = "INSERT COIN";
         }
 
+        return messageToDisplay;
     }
 
     public boolean acceptCoin(Coin coin) {
