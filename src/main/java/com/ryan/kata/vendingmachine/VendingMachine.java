@@ -13,12 +13,13 @@ public class VendingMachine {
     private ArrayList<Coin> rejectedCoinsToReturn = new ArrayList<>();
     private ArrayList<Coin> insertedCoins = new ArrayList<>();
     private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
+    private String displayMessage = "INSERT COIN";
 
     public String display() {
-        if (insertedCoinAmount.equals(new BigDecimal("0.00"))) {
-            return "INSERT COIN";
-        } else {
+        if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
             return "Amount: " + insertedCoinAmount;
+        } else {
+            return displayMessage;
         }
 
     }
@@ -59,5 +60,14 @@ public class VendingMachine {
     public void coinReturnPressed() {
         rejectedCoinsToReturn.addAll(insertedCoins);
         insertedCoinAmount = new BigDecimal("0.00");
+    }
+
+    public void selectProduct(String selection) {
+
+        updateDisplay("PRICE $1.00");
+    }
+
+    private void updateDisplay(String message) {
+        this.displayMessage = message;
     }
 }

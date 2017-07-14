@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by Styles on 7/3/17.
@@ -102,5 +103,12 @@ public class VendingMachineTest {
         vendingMachine.coinReturnPressed();
 
         Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_displays_price_when_item_is_selected_with_no_money_inserted() {
+        vendingMachine.selectProduct("A1");
+
+        Assert.assertEquals("PRICE $1.00", vendingMachine.display());
     }
 }
