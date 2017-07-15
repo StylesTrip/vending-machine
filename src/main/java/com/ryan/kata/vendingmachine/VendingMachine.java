@@ -17,6 +17,7 @@ public class VendingMachine {
     private ArrayList<Coin> rejectedCoinsToReturn = new ArrayList<>();
     private ArrayList<Coin> insertedCoins = new ArrayList<>();
     private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
+    private VMProducts dispensedItem = null;
     private String displayMessage = "INSERT COIN";
     private boolean itemDispensed;
     private boolean priceChecked;
@@ -78,8 +79,20 @@ public class VendingMachine {
     }
 
     public void selectProduct(String selection) {
+        if (insertedCoinAmount.equals(new BigDecimal("1.00"))) {
+            itemDispensed = true;
+            dispensedItem = new Cola();
+        } else if (insertedCoinAmount.equals(new BigDecimal("0.50"))){
+            itemDispensed = true;
+            dispensedItem = new Chips();
+        } else if (insertedCoinAmount.equals(new BigDecimal("0.65"))){
+            itemDispensed = true;
+            dispensedItem = new Candy();
+        }
 
-        if (!insertedCoinAmount.equals(new BigDecimal("1.00"))) {
+        if (itemDispensed) {
+            updateDisplay("THANK YOU");
+        } else {
             priceChecked = true;
             updateDisplay("PRICE $1.00");
         }
@@ -90,20 +103,6 @@ public class VendingMachine {
     }
 
     public VMProducts checkDispenser() {
-        if (insertedCoinAmount.equals(new BigDecimal("1.00"))) {
-            itemDispensed = true;
-            updateDisplay("THANK YOU");
-            return new Cola();
-        } else if (insertedCoinAmount.equals(new BigDecimal("0.50"))){
-            itemDispensed = true;
-            updateDisplay("THANK YOU");
-            return new Chips();
-        } else if (insertedCoinAmount.equals(new BigDecimal("0.65"))){
-            itemDispensed = true;
-            updateDisplay("THANK YOU");
-            return new Candy();
-        } else {
-            return null;
-        }
+        return dispensedItem;
     }
 }
