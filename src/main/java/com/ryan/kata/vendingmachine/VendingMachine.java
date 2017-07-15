@@ -17,6 +17,7 @@ public class VendingMachine {
     private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
     private String displayMessage = "INSERT COIN";
     private boolean itemDispensed;
+    private boolean priceChecked;
 
     public String display() {
         String messageToDisplay;
@@ -26,11 +27,11 @@ public class VendingMachine {
             itemDispensed = false;
             insertedCoinAmount = new BigDecimal("0.00");
             displayMessage = "INSERT COIN";
-        } else if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
-            messageToDisplay = "Amount: " + insertedCoinAmount;
-        } else {
+        } else if (priceChecked) {
             messageToDisplay = displayMessage;
-            displayMessage = "INSERT COIN";
+            priceChecked = false;
+        } else{
+            messageToDisplay = (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) ? "Amount: " + insertedCoinAmount : "INSERT COIN";
         }
 
         return messageToDisplay;
@@ -76,7 +77,10 @@ public class VendingMachine {
 
     public void selectProduct(String selection) {
 
-        updateDisplay("PRICE $1.00");
+        if (!insertedCoinAmount.equals(new BigDecimal("1.00"))) {
+            priceChecked = true;
+            updateDisplay("PRICE $1.00");
+        }
     }
 
     private void updateDisplay(String message) {

@@ -122,6 +122,15 @@ public class VendingMachineTest {
     }
 
     @Test
+    public void test_vending_machine_displays_price_of_item_then_amount_accepted_when_not_enough_money_inserted() {
+        vendingMachine.acceptCoin(Coin.DIME);
+        vendingMachine.selectProduct("A1");
+
+        Assert.assertEquals("PRICE $1.00", vendingMachine.display());
+        Assert.assertEquals("Amount: 0.10", vendingMachine.display());
+    }
+
+    @Test
     public void test_vending_machine_dispenses_cola_when_inserted_amount_matches_price() {
         vendingMachine.acceptCoin(Coin.QUARTER);
         vendingMachine.acceptCoin(Coin.QUARTER);
