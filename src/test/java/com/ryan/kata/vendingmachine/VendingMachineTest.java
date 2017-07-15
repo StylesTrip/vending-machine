@@ -146,4 +146,18 @@ public class VendingMachineTest {
 
         Assert.assertEquals("THANK YOU", vendingMachine.display());
     }
+
+    @Test
+    public void test_vending_machine_displays_INSERT_COIN_after_thank_you_from_dispensing() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+
+        vendingMachine.selectProduct("A1");
+        vendingMachine.checkDispenser();
+
+        Assert.assertEquals("THANK YOU", vendingMachine.display());
+        Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
 }

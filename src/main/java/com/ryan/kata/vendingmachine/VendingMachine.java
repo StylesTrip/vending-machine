@@ -22,8 +22,10 @@ public class VendingMachine {
         String messageToDisplay;
 
         if (itemDispensed){
-            itemDispensed = false;
             messageToDisplay = displayMessage;
+            itemDispensed = false;
+            insertedCoinAmount = new BigDecimal("0.00");
+            displayMessage = "INSERT COIN";
         } else if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
             messageToDisplay = "Amount: " + insertedCoinAmount;
         } else {
