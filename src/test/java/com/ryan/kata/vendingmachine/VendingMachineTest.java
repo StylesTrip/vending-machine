@@ -195,4 +195,30 @@ public class VendingMachineTest {
 
         Assert.assertTrue(dispensedProduct instanceof Candy);
     }
+
+
+    @Test
+    public void test_vending_machine_displays_correct_price_for_each_item() {
+        vendingMachine.selectProduct("A1");
+        Assert.assertEquals("PRICE $1.00", vendingMachine.display());
+
+        vendingMachine.selectProduct("B1");
+        Assert.assertEquals("PRICE $0.50", vendingMachine.display());
+
+        vendingMachine.selectProduct("C1");
+        Assert.assertEquals("PRICE $0.65", vendingMachine.display());
+
+    }
+
+    @Test
+    public void test_vending_machine_displays_correct_price_for_two_items_then_inserted_accepted_amount() {
+        vendingMachine.acceptCoin(Coin.NICKEL);
+        vendingMachine.selectProduct("A1");
+        Assert.assertEquals("PRICE $1.00", vendingMachine.display());
+
+        vendingMachine.selectProduct("B1");
+        Assert.assertEquals("PRICE $0.50", vendingMachine.display());
+
+        Assert.assertEquals("Amount: 0.05", vendingMachine.display());
+    }
 }

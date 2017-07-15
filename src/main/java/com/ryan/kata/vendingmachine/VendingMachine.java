@@ -94,7 +94,13 @@ public class VendingMachine {
             updateDisplay("THANK YOU");
         } else {
             priceChecked = true;
-            updateDisplay("PRICE $1.00");
+            if (selection.equalsIgnoreCase("A1")) {
+                updateDisplay("PRICE $1.00");
+            } else if (selection.equalsIgnoreCase("B1")) {
+                updateDisplay("PRICE $0.50");
+            } else if (selection.equalsIgnoreCase("C1")) {
+                updateDisplay("PRICE $0.65");
+            }
         }
     }
 
