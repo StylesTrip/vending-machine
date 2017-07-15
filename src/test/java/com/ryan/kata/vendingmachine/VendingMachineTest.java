@@ -1,6 +1,7 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.vmproducts.Chips;
 import com.ryan.kata.vmproducts.Cola;
 import com.ryan.kata.vmproducts.VMProducts;
 import org.junit.Assert;
@@ -168,5 +169,16 @@ public class VendingMachineTest {
 
         Assert.assertEquals("THANK YOU", vendingMachine.display());
         Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
+
+    @Test
+    public void testing_vending_machine_dispenses_chips_when_proper_amount_added() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+
+        vendingMachine.selectProduct("B1");
+        VMProducts dispensedProduct = vendingMachine.checkDispenser();
+
+        Assert.assertTrue(dispensedProduct instanceof Chips);
     }
 }

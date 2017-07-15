@@ -1,6 +1,7 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.vmproducts.Chips;
 import com.ryan.kata.vmproducts.Cola;
 import com.ryan.kata.vmproducts.VMProducts;
 
@@ -93,7 +94,7 @@ public class VendingMachine {
             updateDisplay("THANK YOU");
             return new Cola();
         } else {
-            return null;
+            return new Chips();
         }
     }
 }
