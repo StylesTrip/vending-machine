@@ -1,6 +1,8 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.vmproducts.Cola;
+import com.ryan.kata.vmproducts.VMProducts;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -73,5 +75,13 @@ public class VendingMachine {
 
     private void updateDisplay(String message) {
         this.displayMessage = message;
+    }
+
+    public VMProducts checkDispenser() {
+        if (insertedCoinAmount.equals(new BigDecimal("1.00"))) {
+            return new Cola();
+        } else {
+            return null;
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.vmproducts.Cola;
+import com.ryan.kata.vmproducts.VMProducts;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -118,5 +120,18 @@ public class VendingMachineTest {
 
         Assert.assertEquals("PRICE $1.00", vendingMachine.display());
         Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_dispenses_cola_when_inserted_amount_matches_price() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+
+        vendingMachine.selectProduct("A1");
+        VMProducts dispensedProduct = vendingMachine.checkDispenser();
+
+        Assert.assertTrue(dispensedProduct instanceof Cola);
     }
 }
