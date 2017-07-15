@@ -1,6 +1,7 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.vmproducts.Candy;
 import com.ryan.kata.vmproducts.Chips;
 import com.ryan.kata.vmproducts.Cola;
 import com.ryan.kata.vmproducts.VMProducts;
@@ -93,8 +94,16 @@ public class VendingMachine {
             itemDispensed = true;
             updateDisplay("THANK YOU");
             return new Cola();
-        } else {
+        } else if (insertedCoinAmount.equals(new BigDecimal("0.50"))){
+            itemDispensed = true;
+            updateDisplay("THANK YOU");
             return new Chips();
+        } else if (insertedCoinAmount.equals(new BigDecimal("0.65"))){
+            itemDispensed = true;
+            updateDisplay("THANK YOU");
+            return new Candy();
+        } else {
+            return null;
         }
     }
 }
