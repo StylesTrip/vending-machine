@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Styles on 7/3/17.
@@ -133,5 +132,18 @@ public class VendingMachineTest {
         VMProducts dispensedProduct = vendingMachine.checkDispenser();
 
         Assert.assertTrue(dispensedProduct instanceof Cola);
+    }
+
+    @Test
+    public void test_vending_machine_displays_thank_you_after_dispensing_cola() {
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+
+        vendingMachine.selectProduct("A1");
+        vendingMachine.checkDispenser();
+
+        Assert.assertEquals("THANK YOU", vendingMachine.display());
     }
 }

@@ -16,11 +16,15 @@ public class VendingMachine {
     private ArrayList<Coin> insertedCoins = new ArrayList<>();
     private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
     private String displayMessage = "INSERT COIN";
+    private boolean itemDispensed;
 
     public String display() {
         String messageToDisplay;
 
-        if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
+        if (itemDispensed){
+            itemDispensed = false;
+            messageToDisplay = displayMessage;
+        } else if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
             messageToDisplay = "Amount: " + insertedCoinAmount;
         } else {
             messageToDisplay = displayMessage;
@@ -79,6 +83,8 @@ public class VendingMachine {
 
     public VMProducts checkDispenser() {
         if (insertedCoinAmount.equals(new BigDecimal("1.00"))) {
+            itemDispensed = true;
+            updateDisplay("THANK YOU");
             return new Cola();
         } else {
             return null;
