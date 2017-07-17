@@ -1,6 +1,7 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.inventory.Inventory;
 import com.ryan.kata.vmproducts.Candy;
 import com.ryan.kata.vmproducts.Chips;
 import com.ryan.kata.vmproducts.Cola;
@@ -8,6 +9,7 @@ import com.ryan.kata.vmproducts.VMProducts;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Optional;
 
 /**
  * Created by Styles on 7/9/17.
@@ -16,11 +18,13 @@ public class VendingMachine {
 
     private ArrayList<Coin> rejectedCoinsToReturn = new ArrayList<>();
     private ArrayList<Coin> insertedCoins = new ArrayList<>();
+    private Inventory productInventory;
     private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
     private VMProducts dispensedItem = null;
     private String displayMessage = "INSERT COIN";
     private boolean itemDispensed;
     private boolean priceChecked;
+    private boolean itemSoldOut;
 
     public String display() {
         String messageToDisplay;
@@ -33,7 +37,10 @@ public class VendingMachine {
         } else if (priceChecked) {
             messageToDisplay = displayMessage;
             priceChecked = false;
-        } else{
+        } else if (itemSoldOut) {
+            messageToDisplay = displayMessage;
+            itemSoldOut = false;
+        } else {
             messageToDisplay = (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) ? "Amount: " + insertedCoinAmount : "INSERT COIN";
         }
 
@@ -83,8 +90,14 @@ public class VendingMachine {
             itemDispensed = true;
             dispensedItem = new Cola();
         } else if (insertedCoinAmount.equals(new BigDecimal("0.50"))){
-            itemDispensed = true;
-            dispensedItem = new Chips();
+            Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
+
+            if (optionalProduct.isPresent()) {
+                itemDispensed = true;
+                dispensedItem = new Chips();
+            } else {
+                itemSoldOut = true;
+            }
         } else if (insertedCoinAmount.equals(new BigDecimal("0.65"))){
             itemDispensed = true;
             dispensedItem = new Candy();
@@ -92,6 +105,8 @@ public class VendingMachine {
 
         if (itemDispensed) {
             updateDisplay("THANK YOU");
+        } else if (itemSoldOut) {
+            updateDisplay("SOLD OUT");
         } else {
             priceChecked = true;
             if (selection.equalsIgnoreCase("A1")) {
@@ -110,5 +125,9 @@ public class VendingMachine {
 
     public VMProducts checkDispenser() {
         return dispensedItem;
+    }
+
+    public void addProductInventory(Inventory inventory) {
+        this.productInventory = inventory;
     }
 }

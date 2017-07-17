@@ -1,6 +1,7 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.inventory.Inventory;
 import com.ryan.kata.vmproducts.Candy;
 import com.ryan.kata.vmproducts.Chips;
 import com.ryan.kata.vmproducts.Cola;
@@ -21,6 +22,12 @@ public class VendingMachineTest {
     @Before
     public void setUp() {
         vendingMachine = new VendingMachine();
+        Inventory inventory = new Inventory();
+        ArrayList<VMProducts> chips = new ArrayList<>(1);
+        chips.add(new Chips());
+        inventory.addProduct("B1", chips);
+
+        vendingMachine.addProductInventory(inventory);
     }
 
     @Test
@@ -220,5 +227,18 @@ public class VendingMachineTest {
         Assert.assertEquals("PRICE $0.50", vendingMachine.display());
 
         Assert.assertEquals("Amount: 0.05", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_sold_out_of_chips_displays_SOLD_OUT() {
+        Inventory inventory = new Inventory();
+
+        inventory.addProduct("B1", new ArrayList<>());
+        vendingMachine.addProductInventory(inventory);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+
+        vendingMachine.selectProduct("B1");
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
     }
 }
