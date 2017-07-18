@@ -23,9 +23,19 @@ public class VendingMachineTest {
     public void setUp() {
         vendingMachine = new VendingMachine();
         Inventory inventory = new Inventory();
+
         ArrayList<VMProducts> chips = new ArrayList<>(1);
         chips.add(new Chips());
+
+        ArrayList<VMProducts> colas = new ArrayList<>(1);
+        colas.add(new Cola());
+
+        ArrayList<VMProducts> candies = new ArrayList<>(1);
+        candies.add(new Candy());
+
+        inventory.addProduct("A1", colas);
         inventory.addProduct("B1", chips);
+        inventory.addProduct("C1", candies);
 
         vendingMachine.addProductInventory(inventory);
     }
@@ -268,5 +278,66 @@ public class VendingMachineTest {
         Assert.assertEquals("Amount: 0.25", vendingMachine.display());
     }
 
-    //TODO then go into other products
+    @Test
+    public void test_vending_machine_displays_SOLD_OUT_for_cola() {
+        Inventory inventory = new Inventory();
+
+        inventory.addProduct("A1", new ArrayList<>());
+        vendingMachine.addProductInventory(inventory);
+
+        vendingMachine.selectProduct("A1");
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_displays_SOLD_OUT_then_INSERT_COIN_for_cola() {
+        Inventory inventory = new Inventory();
+
+        inventory.addProduct("A1", new ArrayList<>());
+        vendingMachine.addProductInventory(inventory);
+
+        vendingMachine.selectProduct("A1");
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
+        Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_displays_SOLD_OUT_then_AMOUNT_added_for_cola() {
+        Inventory inventory = new Inventory();
+
+        inventory.addProduct("A1", new ArrayList<>());
+        vendingMachine.addProductInventory(inventory);
+
+        vendingMachine.acceptCoin(Coin.DIME);
+
+        vendingMachine.selectProduct("A1");
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
+        Assert.assertEquals("Amount: 0.10", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_displays_SOLD_OUT_then_INSERT_COIN_for_chips() {
+        Inventory inventory = new Inventory();
+
+        inventory.addProduct("C1", new ArrayList<>());
+        vendingMachine.addProductInventory(inventory);
+
+        vendingMachine.selectProduct("C1");
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
+        Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_displays_SOLD_OUT_then_AMOUNT_added_for_chips() {
+        Inventory inventory = new Inventory();
+
+        inventory.addProduct("C1", new ArrayList<>());
+        vendingMachine.addProductInventory(inventory);
+
+        vendingMachine.acceptCoin(Coin.NICKEL);
+
+        vendingMachine.selectProduct("C1");
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
+        Assert.assertEquals("Amount: 0.05", vendingMachine.display());
+    }
 }

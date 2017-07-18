@@ -86,9 +86,18 @@ public class VendingMachine {
     }
 
     public void selectProduct(String selection) {
-        if (insertedCoinAmount.equals(new BigDecimal("1.00"))) {
-            itemDispensed = true;
-            dispensedItem = new Cola();
+
+        if ("A1".equalsIgnoreCase(selection)) {
+            Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
+
+            if (optionalProduct.isPresent()) {
+                if (insertedCoinAmount.equals(new BigDecimal("1.00"))) {
+                    itemDispensed = true;
+                    dispensedItem = new Cola();
+                }
+            } else {
+                itemSoldOut = true;
+            }
         } else if ("B1".equalsIgnoreCase(selection)) {
             Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
 
@@ -100,9 +109,17 @@ public class VendingMachine {
             } else {
                 itemSoldOut = true;
             }
-        } else if (insertedCoinAmount.equals(new BigDecimal("0.65"))){
-            itemDispensed = true;
-            dispensedItem = new Candy();
+        }  else if ("C1".equalsIgnoreCase(selection)) {
+            Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
+
+            if (optionalProduct.isPresent()) {
+                if (insertedCoinAmount.equals(new BigDecimal("0.65"))) {
+                    itemDispensed = true;
+                    dispensedItem = new Candy();
+                }
+            } else {
+                itemSoldOut = true;
+            }
         }
 
         if (itemDispensed) {
