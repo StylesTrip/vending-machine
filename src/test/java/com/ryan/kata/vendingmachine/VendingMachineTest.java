@@ -241,4 +241,32 @@ public class VendingMachineTest {
         vendingMachine.selectProduct("B1");
         Assert.assertEquals("SOLD OUT", vendingMachine.display());
     }
+
+    @Test
+    public void test_vending_machine_displays_SOLD_OUT_then_INSERT_COIN() {
+        Inventory inventory = new Inventory();
+
+        inventory.addProduct("B1", new ArrayList<>());
+        vendingMachine.addProductInventory(inventory);
+
+        vendingMachine.selectProduct("B1");
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
+        Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_displays_SOLD_OUT_then_AMOUNT_added() {
+        Inventory inventory = new Inventory();
+
+        inventory.addProduct("B1", new ArrayList<>());
+        vendingMachine.addProductInventory(inventory);
+
+        vendingMachine.acceptCoin(Coin.QUARTER);
+
+        vendingMachine.selectProduct("B1");
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
+        Assert.assertEquals("Amount: 0.25", vendingMachine.display());
+    }
+
+    //TODO then go into other products
 }

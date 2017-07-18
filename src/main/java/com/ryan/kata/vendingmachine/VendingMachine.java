@@ -89,12 +89,14 @@ public class VendingMachine {
         if (insertedCoinAmount.equals(new BigDecimal("1.00"))) {
             itemDispensed = true;
             dispensedItem = new Cola();
-        } else if (insertedCoinAmount.equals(new BigDecimal("0.50"))){
+        } else if ("B1".equalsIgnoreCase(selection)) {
             Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
 
             if (optionalProduct.isPresent()) {
-                itemDispensed = true;
-                dispensedItem = new Chips();
+                if (insertedCoinAmount.equals(new BigDecimal("0.50"))) {
+                    itemDispensed = true;
+                    dispensedItem = new Chips();
+                }
             } else {
                 itemSoldOut = true;
             }
