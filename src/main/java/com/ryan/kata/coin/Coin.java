@@ -1,8 +1,5 @@
 package com.ryan.kata.coin;
 
-/**
- * Created by Styles on 7/9/17.
- */
 public enum Coin {
 
     QUARTER (.955, 5.670),

@@ -2,18 +2,13 @@ package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
 import com.ryan.kata.inventory.Inventory;
-import com.ryan.kata.vmproducts.Candy;
-import com.ryan.kata.vmproducts.Chips;
-import com.ryan.kata.vmproducts.Cola;
+import com.ryan.kata.vendingmachine.pricing.VendorMachinePricing;
 import com.ryan.kata.vmproducts.VMProducts;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Optional;
 
-/**
- * Created by Styles on 7/9/17.
- */
 public class VendingMachine {
 
     private ArrayList<Coin> rejectedCoinsToReturn = new ArrayList<>();
@@ -29,7 +24,7 @@ public class VendingMachine {
     public String display() {
         String messageToDisplay;
 
-        if (itemDispensed){
+        if (itemDispensed) {
             messageToDisplay = displayMessage;
             itemDispensed = false;
             insertedCoinAmount = new BigDecimal("0.00");
@@ -86,40 +81,15 @@ public class VendingMachine {
     }
 
     public void selectProduct(String selection) {
+        Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
 
-        if ("A1".equalsIgnoreCase(selection)) {
-            Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
-
-            if (optionalProduct.isPresent()) {
-                if (insertedCoinAmount.equals(new BigDecimal("1.00"))) {
-                    itemDispensed = true;
-                    dispensedItem = new Cola();
-                }
-            } else {
-                itemSoldOut = true;
+        if (optionalProduct.isPresent()) {
+            if (insertedCoinAmount.equals(VendorMachinePricing.valueOf(selection).getPrice())) {
+                itemDispensed = true;
+                dispensedItem = optionalProduct.get();
             }
-        } else if ("B1".equalsIgnoreCase(selection)) {
-            Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
-
-            if (optionalProduct.isPresent()) {
-                if (insertedCoinAmount.equals(new BigDecimal("0.50"))) {
-                    itemDispensed = true;
-                    dispensedItem = new Chips();
-                }
-            } else {
-                itemSoldOut = true;
-            }
-        }  else if ("C1".equalsIgnoreCase(selection)) {
-            Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
-
-            if (optionalProduct.isPresent()) {
-                if (insertedCoinAmount.equals(new BigDecimal("0.65"))) {
-                    itemDispensed = true;
-                    dispensedItem = new Candy();
-                }
-            } else {
-                itemSoldOut = true;
-            }
+        } else {
+            itemSoldOut = true;
         }
 
         if (itemDispensed) {
@@ -128,13 +98,8 @@ public class VendingMachine {
             updateDisplay("SOLD OUT");
         } else {
             priceChecked = true;
-            if (selection.equalsIgnoreCase("A1")) {
-                updateDisplay("PRICE $1.00");
-            } else if (selection.equalsIgnoreCase("B1")) {
-                updateDisplay("PRICE $0.50");
-            } else if (selection.equalsIgnoreCase("C1")) {
-                updateDisplay("PRICE $0.65");
-            }
+
+            updateDisplay("PRICE $" + VendorMachinePricing.valueOf(selection).getPrice());
         }
     }
 

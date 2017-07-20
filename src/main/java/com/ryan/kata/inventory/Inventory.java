@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Created by Styles on 7/16/17.
- */
 public class Inventory {
 
     private Map<String, ArrayList<VMProducts>> products;

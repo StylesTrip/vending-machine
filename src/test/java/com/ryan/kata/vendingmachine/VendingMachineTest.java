@@ -13,9 +13,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-/**
- * Created by Styles on 7/3/17.
- */
+
 public class VendingMachineTest {
     VendingMachine vendingMachine;
 
