@@ -29,7 +29,7 @@ public class Inventory {
         Optional<VMProducts> productToReturn = Optional.empty();
 
         //Grabbing, returning, removing the first product (if found) in the list, it's the first one seen
-        if (productSelection.size() > 0) {
+        if (productSelection != null && productSelection.size() > 0) {
             productToReturn = Optional.of(productSelection.get(0));
             productSelection.remove(0);
         }

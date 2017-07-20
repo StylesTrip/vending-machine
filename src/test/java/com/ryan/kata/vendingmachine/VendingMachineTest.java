@@ -338,4 +338,11 @@ public class VendingMachineTest {
         Assert.assertEquals("SOLD OUT", vendingMachine.display());
         Assert.assertEquals("Amount: 0.05", vendingMachine.display());
     }
+
+    @Test
+    public void test_vending_machine_display_for_off_the_wall_selection() {
+        vendingMachine.selectProduct("Z1");
+
+        Assert.assertEquals("SOLD OUT", vendingMachine.display());
+    }
 }
