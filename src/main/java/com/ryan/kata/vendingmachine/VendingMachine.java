@@ -1,6 +1,7 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.inventory.ChangeInventory;
 import com.ryan.kata.inventory.Inventory;
 import com.ryan.kata.vendingmachine.pricing.VendorMachinePricing;
 import com.ryan.kata.vmproducts.VMProducts;
@@ -20,6 +21,7 @@ public class VendingMachine {
     private boolean itemDispensed;
     private boolean priceChecked;
     private boolean itemSoldOut;
+    private ChangeInventory changeInventory;
 
     public String display() {
         String messageToDisplay;
@@ -36,7 +38,11 @@ public class VendingMachine {
             messageToDisplay = displayMessage;
             itemSoldOut = false;
         } else {
-            messageToDisplay = (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) ? "Amount: " + insertedCoinAmount : "INSERT COIN";
+            if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
+                messageToDisplay = "Amount: " + insertedCoinAmount;
+            } else {
+                messageToDisplay = changeInventory.canMakeChange() ? "INSERT COIN" : "EXACT CHANGE ONLY";
+            }
         }
 
         return messageToDisplay;
@@ -113,5 +119,9 @@ public class VendingMachine {
 
     public void addProductInventory(Inventory inventory) {
         this.productInventory = inventory;
+    }
+
+    public void addChangeInventory(ChangeInventory changeInventory) {
+        this.changeInventory = changeInventory;
     }
 }

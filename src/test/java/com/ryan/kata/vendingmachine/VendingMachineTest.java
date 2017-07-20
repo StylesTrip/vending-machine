@@ -1,6 +1,7 @@
 package com.ryan.kata.vendingmachine;
 
 import com.ryan.kata.coin.Coin;
+import com.ryan.kata.inventory.ChangeInventory;
 import com.ryan.kata.inventory.Inventory;
 import com.ryan.kata.vmproducts.Candy;
 import com.ryan.kata.vmproducts.Chips;
@@ -36,6 +37,12 @@ public class VendingMachineTest {
         inventory.addProduct("C1", candies);
 
         vendingMachine.addProductInventory(inventory);
+
+        ArrayList<Coin> coinsForChange = new ArrayList<>(1);
+        coinsForChange.add(Coin.QUARTER);
+        ChangeInventory changeInventory = new ChangeInventory(coinsForChange);
+
+        vendingMachine.addChangeInventory(changeInventory);
     }
 
     @Test
@@ -344,5 +351,15 @@ public class VendingMachineTest {
         vendingMachine.selectProduct("Z1");
 
         Assert.assertEquals("SOLD OUT", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_display_EXACT_CHANGE_ONLY_when_no_change_present() {
+        ArrayList<Coin> emptyChange = new ArrayList<>(0);
+
+        ChangeInventory emptyChangeInventory = new ChangeInventory();
+
+        vendingMachine.addChangeInventory(emptyChangeInventory);
+        Assert.assertEquals("EXACT CHANGE ONLY", vendingMachine.display());
     }
 }
