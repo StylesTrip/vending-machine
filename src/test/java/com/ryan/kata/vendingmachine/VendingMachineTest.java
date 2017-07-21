@@ -355,8 +355,6 @@ public class VendingMachineTest {
 
     @Test
     public void test_vending_machine_display_EXACT_CHANGE_ONLY_when_no_change_present() {
-        ArrayList<Coin> emptyChange = new ArrayList<>(0);
-
         ChangeInventory emptyChangeInventory = new ChangeInventory();
 
         vendingMachine.addChangeInventory(emptyChangeInventory);

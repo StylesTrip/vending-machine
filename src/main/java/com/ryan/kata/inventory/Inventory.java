@@ -1,6 +1,5 @@
 package com.ryan.kata.inventory;
 
-import com.ryan.kata.vmproducts.Chips;
 import com.ryan.kata.vmproducts.VMProducts;
 
 import java.util.ArrayList;
