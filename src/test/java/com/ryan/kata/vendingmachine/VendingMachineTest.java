@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 public class VendingMachineTest {
-    VendingMachine vendingMachine;
+    private VendingMachine vendingMachine;
 
     @Before
     public void setUp() {

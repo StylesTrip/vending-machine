@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class VendingMachine {
 
-    private ArrayList<Coin> rejectedCoinsToReturn = new ArrayList<>();
+    private ArrayList<Coin> coinsToReturn = new ArrayList<>();
     private ArrayList<Coin> insertedCoins = new ArrayList<>();
     private Inventory productInventory;
     private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
@@ -60,7 +60,7 @@ public class VendingMachine {
                 coin.getMassGrams() == Coin.NICKEL.getMassGrams()) {
             insertedCoinAmount = insertedCoinAmount.add(new BigDecimal(".05"));
         } else {
-            rejectedCoinsToReturn.add(coin);
+            coinsToReturn.add(coin);
             return false;
         }
 
@@ -70,11 +70,11 @@ public class VendingMachine {
     }
 
     public ArrayList<Coin> checkCoinReturn() {
-        return rejectedCoinsToReturn;
+        return coinsToReturn;
     }
 
     public void removeFromCoinReturn() {
-        rejectedCoinsToReturn.clear();
+        coinsToReturn.clear();
     }
 
     public BigDecimal getInsertedCoinAmount() {
@@ -82,7 +82,7 @@ public class VendingMachine {
     }
 
     public void coinReturnPressed() {
-        rejectedCoinsToReturn.addAll(insertedCoins);
+        coinsToReturn.addAll(insertedCoins);
         insertedCoinAmount = new BigDecimal("0.00");
     }
 
@@ -99,7 +99,7 @@ public class VendingMachine {
                         VendorMachinePricing.valueOf(selection).getPrice());
 
                 if (remainder.compareTo(BigDecimal.ZERO) > 0) {
-                    rejectedCoinsToReturn.addAll(changeInventory.getChangeFrom(remainder));
+                    coinsToReturn.addAll(changeInventory.getChangeFrom(remainder));
                 }
             }
         } else {
