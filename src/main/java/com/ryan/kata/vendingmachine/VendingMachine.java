@@ -90,9 +90,17 @@ public class VendingMachine {
         Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
 
         if (optionalProduct.isPresent()) {
-            if (insertedCoinAmount.equals(VendorMachinePricing.valueOf(selection).getPrice())) {
+            if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) >= 0) {
                 itemDispensed = true;
                 dispensedItem = optionalProduct.get();
+
+                //Figure out change, if needed
+                BigDecimal remainder = insertedCoinAmount.subtract(
+                        VendorMachinePricing.valueOf(selection).getPrice());
+
+                if (remainder.compareTo(BigDecimal.ZERO) > 0) {
+                    rejectedCoinsToReturn.addAll(changeInventory.getChangeFrom(remainder));
+                }
             }
         } else {
             itemSoldOut = true;

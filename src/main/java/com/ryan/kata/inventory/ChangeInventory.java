@@ -2,6 +2,7 @@ package com.ryan.kata.inventory;
 
 import com.ryan.kata.coin.Coin;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -23,5 +24,28 @@ public class ChangeInventory {
             return false;
         else
             return true;
+    }
+
+    /**
+     * Figuring out the best way to do change. A wikipedia search says using a greedy way,
+     * like the US versions of vending machines will work.
+     *
+     * @param remainder amount that change needs to be made for
+     * @return the list of coins for change
+     */
+    public ArrayList<Coin> getChangeFrom(BigDecimal remainder) {
+        ArrayList<Coin> coinsToReturn = new ArrayList<>();
+
+        while (remainder.compareTo(BigDecimal.ZERO) > 0) {
+
+            if (remainder.compareTo(new BigDecimal("0.05")) >= 0) {
+                coinsForChange.remove(Coin.NICKEL);
+                coinsToReturn.add(Coin.NICKEL);
+
+                remainder = remainder.subtract(new BigDecimal("0.05"));
+            }
+        }
+
+        return coinsToReturn;
     }
 }

@@ -360,4 +360,39 @@ public class VendingMachineTest {
         vendingMachine.addChangeInventory(emptyChangeInventory);
         Assert.assertEquals("EXACT CHANGE ONLY", vendingMachine.display());
     }
+
+    @Test
+    public void test_vending_machine_display_INSERT_COIN_if_change_available_for_all_products() {
+        ArrayList<Coin> coins = new ArrayList<>();
+        coins.add(Coin.QUARTER);
+        coins.add(Coin.QUARTER);
+        coins.add(Coin.DIME);
+        coins.add(Coin.DIME);
+        coins.add(Coin.NICKEL);
+
+        ChangeInventory changeInventory = new ChangeInventory(coins);
+        vendingMachine.addChangeInventory(changeInventory);
+
+        Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
+
+    @Test
+    public void test_vending_machine_get_nickel_as_change() {
+        ArrayList<Coin> coins = new ArrayList<>();
+        coins.add(Coin.NICKEL);
+
+        ChangeInventory changeInventory = new ChangeInventory(coins);
+        vendingMachine.addChangeInventory(changeInventory);
+
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.DIME);
+        vendingMachine.acceptCoin(Coin.DIME);
+
+        vendingMachine.selectProduct("C1");
+        ArrayList<Coin> coinsReturned = vendingMachine.checkCoinReturn();
+
+        Assert.assertEquals(1, coinsReturned.size());
+        Assert.assertTrue(coinsReturned.get(0).equals(Coin.NICKEL));
+    }
 }
