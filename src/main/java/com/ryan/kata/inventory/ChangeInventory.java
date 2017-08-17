@@ -19,7 +19,7 @@ public class ChangeInventory {
 
     /**
      * Goes off the assumption of making enough change based on:
-     * 1 Nickel, 2 Dimes, 2 Quarters
+     * 1 Nickel, 1 Dime/2 Nickels, 2 Quarters
      *
      * @return whether or not change can be made (true/false)
      */
