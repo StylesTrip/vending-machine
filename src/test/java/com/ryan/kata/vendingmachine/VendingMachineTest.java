@@ -395,4 +395,27 @@ public class VendingMachineTest {
         Assert.assertEquals(1, coinsReturned.size());
         Assert.assertTrue(coinsReturned.get(0).equals(Coin.NICKEL));
     }
+
+    @Test
+    public void test_vending_machine_get_multiple_coins_as_change() {
+        ArrayList<Coin> coins = new ArrayList<>();
+        coins.add(Coin.QUARTER);
+        coins.add(Coin.NICKEL);
+        coins.add(Coin.NICKEL);
+
+        ChangeInventory changeInventory = new ChangeInventory(coins);
+        vendingMachine.addChangeInventory(changeInventory);
+
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+        vendingMachine.acceptCoin(Coin.QUARTER);
+
+        vendingMachine.selectProduct("C1");
+        ArrayList<Coin> coinsReturned = vendingMachine.checkCoinReturn();
+
+        Assert.assertTrue(coinsReturned.size() > 1);
+        Assert.assertTrue(coinsReturned.contains(Coin.QUARTER));
+        Assert.assertTrue(coinsReturned.contains(Coin.NICKEL));
+    }
 }

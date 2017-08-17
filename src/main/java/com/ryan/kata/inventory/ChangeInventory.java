@@ -37,12 +37,27 @@ public class ChangeInventory {
         ArrayList<Coin> coinsToReturn = new ArrayList<>();
 
         while (remainder.compareTo(BigDecimal.ZERO) > 0) {
+            if (coinsForChange.contains(Coin.QUARTER)) {
+                if (remainder.compareTo(new BigDecimal("0.25")) >= 0) {
+                    coinsForChange.remove(Coin.QUARTER);
+                    coinsToReturn.add(Coin.QUARTER);
 
-            if (remainder.compareTo(new BigDecimal("0.05")) >= 0) {
-                coinsForChange.remove(Coin.NICKEL);
-                coinsToReturn.add(Coin.NICKEL);
+                    remainder = remainder.subtract(new BigDecimal("0.25"));
+                }
+            } else if (coinsForChange.contains(Coin.DIME)) {
+                if (remainder.compareTo(new BigDecimal("0.10")) >= 0) {
+                    coinsForChange.remove(Coin.DIME);
+                    coinsToReturn.add(Coin.DIME);
 
-                remainder = remainder.subtract(new BigDecimal("0.05"));
+                    remainder = remainder.subtract(new BigDecimal("0.10"));
+                }
+            } else if (coinsForChange.contains(Coin.NICKEL)) {
+                if (remainder.compareTo(new BigDecimal("0.05")) >= 0) {
+                    coinsForChange.remove(Coin.NICKEL);
+                    coinsToReturn.add(Coin.NICKEL);
+
+                    remainder = remainder.subtract(new BigDecimal("0.05"));
+                }
             }
         }
 
