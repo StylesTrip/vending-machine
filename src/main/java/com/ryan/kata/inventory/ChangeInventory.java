@@ -1,13 +1,11 @@
 package com.ryan.kata.inventory;
 
 import com.ryan.kata.coin.Coin;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collections;
 
-/**
- * Created by Styles on 7/19/17.
- */
+
 public class ChangeInventory {
     private ArrayList<Coin> coinsForChange;
 
@@ -19,10 +17,24 @@ public class ChangeInventory {
         this.coinsForChange = coinsForChange;
     }
 
+    /**
+     * Goes off the assumption of making enough change based on:
+     * 1 Nickel, 2 Dimes, 2 Quarters
+     *
+     * @return whether or not change can be made (true/false)
+     */
     public boolean canMakeChange() {
-        if (coinsForChange.size() == 0)
+        if (!coinsForChange.contains(Coin.NICKEL)) {
             return false;
-        else
+        }
+        if (Collections.frequency(coinsForChange, Coin.DIME) < 1 &&
+                Collections.frequency(coinsForChange, Coin.NICKEL) < 2) {
+            return false;
+        }
+        if (Collections.frequency(coinsForChange, Coin.QUARTER) < 2) {
+            return false;
+        }
+
             return true;
     }
 
@@ -44,14 +56,14 @@ public class ChangeInventory {
 
                     remainder = remainder.subtract(new BigDecimal("0.25"));
                 }
-            } else if (coinsForChange.contains(Coin.DIME)) {
+            } if (coinsForChange.contains(Coin.DIME)) {
                 if (remainder.compareTo(new BigDecimal("0.10")) >= 0) {
                     coinsForChange.remove(Coin.DIME);
                     coinsToReturn.add(Coin.DIME);
 
                     remainder = remainder.subtract(new BigDecimal("0.10"));
                 }
-            } else if (coinsForChange.contains(Coin.NICKEL)) {
+            } if (coinsForChange.contains(Coin.NICKEL)) {
                 if (remainder.compareTo(new BigDecimal("0.05")) >= 0) {
                     coinsForChange.remove(Coin.NICKEL);
                     coinsToReturn.add(Coin.NICKEL);
