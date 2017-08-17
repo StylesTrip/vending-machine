@@ -12,16 +12,24 @@ import java.util.Optional;
 
 public class VendingMachine {
 
-    private ArrayList<Coin> coinsToReturn = new ArrayList<>();
-    private ArrayList<Coin> insertedCoins = new ArrayList<>();
+    private ArrayList<Coin> coinsToReturn;
+    private ArrayList<Coin> insertedCoins;
     private Inventory productInventory;
-    private BigDecimal insertedCoinAmount = new BigDecimal("0.00");
+    private ChangeInventory changeInventory;
+    private BigDecimal insertedCoinAmount;
     private VMProducts dispensedItem = null;
-    private String displayMessage = "INSERT COIN";
+    private String displayMessage;
     private boolean itemDispensed;
     private boolean priceChecked;
     private boolean itemSoldOut;
-    private ChangeInventory changeInventory;
+
+    VendingMachine() {
+        coinsToReturn = new ArrayList<>();
+        insertedCoins = new ArrayList<>();
+        insertedCoinAmount = new BigDecimal("0.00");
+
+        displayMessage = "INSERT COIN";
+    }
 
     public String display() {
         String messageToDisplay;
@@ -48,6 +56,12 @@ public class VendingMachine {
         return messageToDisplay;
     }
 
+    /**
+     * Logic for figuring out if an inserted coin is valid and the value of the coin
+     *
+     * @param coin inserted coin into the machine
+     * @return whether or not the coin is valid (true/false)
+     */
     public boolean acceptCoin(Coin coin) {
 
         if (coin.getSizeInches() == Coin.QUARTER.getSizeInches() &&
@@ -69,23 +83,11 @@ public class VendingMachine {
         return true;
     }
 
-    public ArrayList<Coin> checkCoinReturn() {
-        return coinsToReturn;
-    }
-
-    public void removeFromCoinReturn() {
-        coinsToReturn.clear();
-    }
-
-    public BigDecimal getInsertedCoinAmount() {
-        return insertedCoinAmount;
-    }
-
-    public void coinReturnPressed() {
-        coinsToReturn.addAll(insertedCoins);
-        insertedCoinAmount = new BigDecimal("0.00");
-    }
-
+    /**
+     * Takes care of retrieving the product (if present) and getting change
+     *
+     * @param selection what the user has selected
+     */
     public void selectProduct(String selection) {
         Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
 
@@ -117,6 +119,23 @@ public class VendingMachine {
         }
     }
 
+    public void coinReturnPressed() {
+        coinsToReturn.addAll(insertedCoins);
+        insertedCoinAmount = new BigDecimal("0.00");
+    }
+
+    public ArrayList<Coin> checkCoinReturn() {
+        return coinsToReturn;
+    }
+
+    public void removeFromCoinReturn() {
+        coinsToReturn.clear();
+    }
+
+    public BigDecimal getInsertedCoinAmount() {
+        return insertedCoinAmount;
+    }
+
     private void updateDisplay(String message) {
         this.displayMessage = message;
     }
@@ -125,10 +144,13 @@ public class VendingMachine {
         return dispensedItem;
     }
 
+    //There could be no product inventory so this is something that can be added later
+    //to the machine.
     public void addProductInventory(Inventory inventory) {
         this.productInventory = inventory;
     }
 
+    //Same idea with the proudct inventory, there could be no change
     public void addChangeInventory(ChangeInventory changeInventory) {
         this.changeInventory = changeInventory;
     }
