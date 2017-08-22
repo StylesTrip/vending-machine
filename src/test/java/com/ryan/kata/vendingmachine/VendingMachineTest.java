@@ -67,9 +67,9 @@ public class VendingMachineTest {
 
     @Test
     public void test_vending_machine_has_rejected_coins_in_coin_return() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.PENNY);
-        vendingMachine.acceptCoin(Coin.PENNY);
+        addCoinToVendingMachine(Coin.QUARTER, 1);
+        addCoinToVendingMachine(Coin.PENNY, 2);
+
 
         ArrayList<Coin> returnedCoins = vendingMachine.checkCoinReturn();
         Assert.assertEquals(2, returnedCoins.size());
@@ -79,8 +79,7 @@ public class VendingMachineTest {
 
     @Test
     public void test_customer_removes_coins_from_coin_return() {
-        vendingMachine.acceptCoin(Coin.PENNY);
-        vendingMachine.acceptCoin(Coin.PENNY);
+        addCoinToVendingMachine(Coin.PENNY, 2);
 
         vendingMachine.removeFromCoinReturn();
 
@@ -98,27 +97,27 @@ public class VendingMachineTest {
 
     @Test
     public void test_amount_changes_when_valid_coins_accepted() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.DIME);
-        vendingMachine.acceptCoin(Coin.NICKEL);
+        addCoinToVendingMachine(Coin.QUARTER, 1);
+        addCoinToVendingMachine(Coin.NICKEL, 1);
+        addCoinToVendingMachine(Coin.DIME, 1);
 
         Assert.assertEquals(new BigDecimal(".40"), vendingMachine.getInsertedCoinAmount());
     }
 
     @Test
     public void test_display_updates_when_valid_coins_accepted() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.NICKEL);
-        vendingMachine.acceptCoin(Coin.PENNY);
+        addCoinToVendingMachine(Coin.QUARTER, 1);
+        addCoinToVendingMachine(Coin.NICKEL, 1);
+        addCoinToVendingMachine(Coin.PENNY, 1);
 
         Assert.assertEquals("Amount: 0.30", vendingMachine.display());
     }
 
     @Test
     public void test_coin_return_pressed_returns_coins() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.NICKEL);
-        vendingMachine.acceptCoin(Coin.PENNY);
+        addCoinToVendingMachine(Coin.QUARTER, 1);
+        addCoinToVendingMachine(Coin.NICKEL, 1);
+        addCoinToVendingMachine(Coin.PENNY, 1);
 
         vendingMachine.coinReturnPressed();
 
@@ -129,7 +128,7 @@ public class VendingMachineTest {
 
     @Test
     public void test_coin_return_pressed_updates_display_to_INSERT_COIN() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
+        addCoinToVendingMachine(Coin.QUARTER, 1);
         vendingMachine.coinReturnPressed();
 
         Assert.assertEquals("INSERT COIN", vendingMachine.display());
@@ -152,7 +151,7 @@ public class VendingMachineTest {
 
     @Test
     public void test_vending_machine_displays_price_of_item_then_amount_accepted_when_not_enough_money_inserted() {
-        vendingMachine.acceptCoin(Coin.DIME);
+        addCoinToVendingMachine(Coin.DIME, 1);
         vendingMachine.selectProduct("A1");
 
         Assert.assertEquals("PRICE $1.00", vendingMachine.display());
@@ -161,10 +160,7 @@ public class VendingMachineTest {
 
     @Test
     public void test_vending_machine_dispenses_cola_when_inserted_amount_matches_price() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
+        addCoinToVendingMachine(Coin.QUARTER, 4);
 
         vendingMachine.selectProduct("A1");
         VMProducts dispensedProduct = vendingMachine.checkDispenser();
@@ -174,10 +170,7 @@ public class VendingMachineTest {
 
     @Test
     public void test_vending_machine_displays_thank_you_after_dispensing_cola() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
+        addCoinToVendingMachine(Coin.QUARTER, 4);
 
         vendingMachine.selectProduct("A1");
         vendingMachine.checkDispenser();
@@ -187,10 +180,7 @@ public class VendingMachineTest {
 
     @Test
     public void test_vending_machine_displays_INSERT_COIN_after_thank_you_from_dispensing() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
+        addCoinToVendingMachine(Coin.QUARTER, 4);
 
         vendingMachine.selectProduct("A1");
         vendingMachine.checkDispenser();
@@ -201,8 +191,7 @@ public class VendingMachineTest {
 
     @Test
     public void testing_vending_machine_dispenses_chips_when_proper_amount_added() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
+        addCoinToVendingMachine(Coin.QUARTER, 2);
 
         vendingMachine.selectProduct("B1");
         VMProducts dispensedProduct = vendingMachine.checkDispenser();
@@ -212,10 +201,9 @@ public class VendingMachineTest {
 
     @Test
     public void testing_vending_machine_dispenses_candy_when_proper_amount_added() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.NICKEL);
-        vendingMachine.acceptCoin(Coin.DIME);
+        addCoinToVendingMachine(Coin.QUARTER, 2);
+        addCoinToVendingMachine(Coin.NICKEL, 1);
+        addCoinToVendingMachine(Coin.DIME, 1);
 
         vendingMachine.selectProduct("C1");
         VMProducts dispensedProduct = vendingMachine.checkDispenser();
@@ -255,8 +243,8 @@ public class VendingMachineTest {
 
         inventory.addProduct("B1", new ArrayList<>());
         vendingMachine.addProductInventory(inventory);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
+
+        addCoinToVendingMachine(Coin.QUARTER, 2);
 
         vendingMachine.selectProduct("B1");
         Assert.assertEquals("SOLD OUT", vendingMachine.display());
@@ -281,7 +269,7 @@ public class VendingMachineTest {
         inventory.addProduct("B1", new ArrayList<>());
         vendingMachine.addProductInventory(inventory);
 
-        vendingMachine.acceptCoin(Coin.QUARTER);
+        addCoinToVendingMachine(Coin.QUARTER, 1);
 
         vendingMachine.selectProduct("B1");
         Assert.assertEquals("SOLD OUT", vendingMachine.display());
@@ -318,7 +306,7 @@ public class VendingMachineTest {
         inventory.addProduct("A1", new ArrayList<>());
         vendingMachine.addProductInventory(inventory);
 
-        vendingMachine.acceptCoin(Coin.DIME);
+        addCoinToVendingMachine(Coin.DIME, 1);
 
         vendingMachine.selectProduct("A1");
         Assert.assertEquals("SOLD OUT", vendingMachine.display());
@@ -375,10 +363,8 @@ public class VendingMachineTest {
     public void test_vending_machine_display_EXACT_CHANGE_ONLY_when_not_enough_change_available() {
         Assert.assertEquals("INSERT COIN", vendingMachine.display());
 
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.DIME);
-        vendingMachine.acceptCoin(Coin.DIME);
+        addCoinToVendingMachine(Coin.QUARTER, 2);
+        addCoinToVendingMachine(Coin.DIME, 2);
 
         vendingMachine.selectProduct("C1");
 
@@ -388,10 +374,8 @@ public class VendingMachineTest {
 
     @Test
     public void test_vending_machine_get_nickel_as_change() {
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.DIME);
-        vendingMachine.acceptCoin(Coin.DIME);
+        addCoinToVendingMachine(Coin.QUARTER, 2);
+        addCoinToVendingMachine(Coin.DIME, 2);
 
         vendingMachine.selectProduct("C1");
         ArrayList<Coin> coinsReturned = vendingMachine.checkCoinReturn();
@@ -410,10 +394,7 @@ public class VendingMachineTest {
         ChangeInventory changeInventory = new ChangeInventory(coins);
         vendingMachine.addChangeInventory(changeInventory);
 
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
-        vendingMachine.acceptCoin(Coin.QUARTER);
+        addCoinToVendingMachine(Coin.QUARTER, 4);
 
         vendingMachine.selectProduct("C1");
         ArrayList<Coin> coinsReturned = vendingMachine.checkCoinReturn();
@@ -421,5 +402,11 @@ public class VendingMachineTest {
         Assert.assertTrue(coinsReturned.size() > 1);
         Assert.assertTrue(coinsReturned.contains(Coin.QUARTER));
         Assert.assertTrue(coinsReturned.contains(Coin.NICKEL));
+    }
+
+    private void addCoinToVendingMachine(Coin coin, int numberToAdd) {
+        for (int i = 0; i < numberToAdd; i++) {
+            vendingMachine.acceptCoin(coin);
+        }
     }
 }
