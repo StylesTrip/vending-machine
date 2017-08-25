@@ -92,16 +92,27 @@ public class VendingMachine {
         Optional<VMProducts> optionalProduct = productInventory.getProduct(selection);
 
         if (optionalProduct.isPresent()) {
-            if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) >= 0) {
-                itemDispensed = true;
-                dispensedItem = optionalProduct.get();
 
-                //Figure out change, if needed
-                BigDecimal remainder = insertedCoinAmount.subtract(
-                        VendorMachinePricing.valueOf(selection).getPrice());
+            if (!changeInventory.canMakeChange()) {
+                //When we say EXACT CHANGE, we mean it so return all coins inserted if change cannot be made for selected item
+                if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) > 0) {
+                    coinsToReturn.addAll(insertedCoins);
+                    insertedCoins.clear();
+                    insertedCoinAmount = new BigDecimal("0.00");
+                }
+            } else {
 
-                if (remainder.compareTo(BigDecimal.ZERO) > 0) {
-                    coinsToReturn.addAll(changeInventory.getChangeFrom(remainder));
+                if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) >= 0) {
+                    itemDispensed = true;
+                    dispensedItem = optionalProduct.get();
+
+                    //Figure out change, if needed
+                    BigDecimal remainder = insertedCoinAmount.subtract(
+                            VendorMachinePricing.valueOf(selection).getPrice());
+
+                    if (remainder.compareTo(BigDecimal.ZERO) > 0) {
+                        coinsToReturn.addAll(changeInventory.getChangeFrom(remainder));
+                    }
                 }
             }
         } else {
@@ -121,6 +132,7 @@ public class VendingMachine {
 
     public void coinReturnPressed() {
         coinsToReturn.addAll(insertedCoins);
+        insertedCoins.clear();
         insertedCoinAmount = new BigDecimal("0.00");
     }
 
@@ -150,7 +162,7 @@ public class VendingMachine {
         this.productInventory = inventory;
     }
 
-    //Same idea with the proudct inventory, there could be no change
+    //Same idea with the product inventory, there could be no change
     public void addChangeInventory(ChangeInventory changeInventory) {
         this.changeInventory = changeInventory;
     }

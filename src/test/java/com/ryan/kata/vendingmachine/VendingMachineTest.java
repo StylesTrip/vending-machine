@@ -388,6 +388,7 @@ public class VendingMachineTest {
     public void test_vending_machine_get_multiple_coins_no_dimes_as_change() {
         ArrayList<Coin> coins = new ArrayList<>();
         coins.add(Coin.QUARTER);
+        coins.add(Coin.QUARTER);
         coins.add(Coin.NICKEL);
         coins.add(Coin.NICKEL);
 
@@ -402,6 +403,18 @@ public class VendingMachineTest {
         Assert.assertTrue(coinsReturned.size() > 1);
         Assert.assertTrue(coinsReturned.contains(Coin.QUARTER));
         Assert.assertTrue(coinsReturned.contains(Coin.NICKEL));
+    }
+
+    @Test
+    public void test_exact_change_only_customer_adds_too_many_coins() {
+        ChangeInventory changeInventory = new ChangeInventory();
+        vendingMachine.addChangeInventory(changeInventory);
+
+        addCoinToVendingMachine(Coin.QUARTER, 3);
+        vendingMachine.selectProduct("C1");
+
+        ArrayList<Coin> coinsReturned = vendingMachine.checkCoinReturn();
+        Assert.assertTrue(coinsReturned.size() == 3);
     }
 
     private void addCoinToVendingMachine(Coin coin, int numberToAdd) {
