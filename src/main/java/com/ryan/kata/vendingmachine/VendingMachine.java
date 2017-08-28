@@ -3,6 +3,7 @@ package com.ryan.kata.vendingmachine;
 import com.ryan.kata.coin.Coin;
 import com.ryan.kata.inventory.ChangeInventory;
 import com.ryan.kata.inventory.Inventory;
+import com.ryan.kata.vendingmachine.display.VendingMachineDisplay;
 import com.ryan.kata.vendingmachine.pricing.VendorMachinePricing;
 import com.ryan.kata.vmproducts.VMProducts;
 
@@ -18,9 +19,8 @@ public class VendingMachine {
     private ChangeInventory changeInventory;
     private BigDecimal insertedCoinAmount;
     private VMProducts dispensedItem = null;
-    private String displayMessage;
+    private VendingMachineDisplay vendingMachineDisplay;
     private boolean itemDispensed;
-    private boolean priceChecked;
     private boolean itemSoldOut;
 
     VendingMachine() {
@@ -28,29 +28,22 @@ public class VendingMachine {
         insertedCoins = new ArrayList<>();
         insertedCoinAmount = new BigDecimal("0.00");
 
-        displayMessage = "INSERT COIN";
+        if (changeInventory != null) {
+            vendingMachineDisplay = new VendingMachineDisplay(changeInventory.canMakeChange());
+        } else {
+            vendingMachineDisplay = new VendingMachineDisplay(false);
+        }
     }
 
     public String display() {
-        String messageToDisplay;
+        String messageToDisplay = vendingMachineDisplay.display();
 
-        if (itemDispensed) {
-            messageToDisplay = displayMessage;
-            itemDispensed = false;
-            insertedCoinAmount = new BigDecimal("0.00");
-            displayMessage = "INSERT COIN";
-        } else if (priceChecked) {
-            messageToDisplay = displayMessage;
-            priceChecked = false;
-        } else if (itemSoldOut) {
-            messageToDisplay = displayMessage;
-            itemSoldOut = false;
+        //reset to default after we display whatever message we needed to
+        //Unless there's coins inserted then we need to let the customer know
+        if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
+            vendingMachineDisplay.amountAddedCheck(insertedCoinAmount);
         } else {
-            if (insertedCoinAmount.compareTo(BigDecimal.ZERO) > 0) {
-                messageToDisplay = "Amount: " + insertedCoinAmount;
-            } else {
-                messageToDisplay = changeInventory.canMakeChange() ? "INSERT COIN" : "EXACT CHANGE ONLY";
-            }
+            vendingMachineDisplay.defaultMessage(changeInventory.canMakeChange());
         }
 
         return messageToDisplay;
@@ -79,6 +72,7 @@ public class VendingMachine {
         }
 
         insertedCoins.add(coin);
+        vendingMachineDisplay.amountAddedCheck(insertedCoinAmount);
 
         return true;
     }
@@ -113,20 +107,18 @@ public class VendingMachine {
                     if (remainder.compareTo(BigDecimal.ZERO) > 0) {
                         coinsToReturn.addAll(changeInventory.getChangeFrom(remainder));
                     }
+                } else {
+                    vendingMachineDisplay.itemPriceChecked(selection);
                 }
             }
         } else {
-            itemSoldOut = true;
+            vendingMachineDisplay.itemSoldOut();
         }
 
         if (itemDispensed) {
-            updateDisplay("THANK YOU");
-        } else if (itemSoldOut) {
-            updateDisplay("SOLD OUT");
-        } else {
-            priceChecked = true;
-
-            updateDisplay("PRICE $" + VendorMachinePricing.valueOf(selection).getPrice());
+            vendingMachineDisplay.itemDispensed();
+            insertedCoinAmount = new BigDecimal("0.00");
+            insertedCoins.clear();
         }
     }
 
@@ -134,6 +126,7 @@ public class VendingMachine {
         coinsToReturn.addAll(insertedCoins);
         insertedCoins.clear();
         insertedCoinAmount = new BigDecimal("0.00");
+        vendingMachineDisplay.defaultMessage(changeInventory.canMakeChange());
     }
 
     public ArrayList<Coin> checkCoinReturn() {
@@ -146,10 +139,6 @@ public class VendingMachine {
 
     public BigDecimal getInsertedCoinAmount() {
         return insertedCoinAmount;
-    }
-
-    private void updateDisplay(String message) {
-        this.displayMessage = message;
     }
 
     public VMProducts checkDispenser() {
@@ -165,5 +154,6 @@ public class VendingMachine {
     //Same idea with the product inventory, there could be no change
     public void addChangeInventory(ChangeInventory changeInventory) {
         this.changeInventory = changeInventory;
+        vendingMachineDisplay.defaultMessage(changeInventory.canMakeChange());
     }
 }
