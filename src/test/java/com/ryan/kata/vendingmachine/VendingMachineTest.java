@@ -41,6 +41,8 @@ public class VendingMachineTest {
         ArrayList<Coin> coinsForChange = new ArrayList<>(1);
         coinsForChange.add(Coin.QUARTER);
         coinsForChange.add(Coin.QUARTER);
+        coinsForChange.add(Coin.QUARTER);
+        coinsForChange.add(Coin.DIME);
         coinsForChange.add(Coin.DIME);
         coinsForChange.add(Coin.DIME);
         coinsForChange.add(Coin.NICKEL);
@@ -389,6 +391,12 @@ public class VendingMachineTest {
         ArrayList<Coin> coins = new ArrayList<>();
         coins.add(Coin.QUARTER);
         coins.add(Coin.QUARTER);
+        coins.add(Coin.QUARTER);
+        coins.add(Coin.NICKEL);
+        coins.add(Coin.NICKEL);
+        coins.add(Coin.NICKEL);
+        coins.add(Coin.NICKEL);
+        coins.add(Coin.NICKEL);
         coins.add(Coin.NICKEL);
         coins.add(Coin.NICKEL);
 

@@ -21,7 +21,6 @@ public class VendingMachine {
     private VMProducts dispensedItem = null;
     private VendingMachineDisplay vendingMachineDisplay;
     private boolean itemDispensed;
-    private boolean itemSoldOut;
 
     VendingMachine() {
         coinsToReturn = new ArrayList<>();
