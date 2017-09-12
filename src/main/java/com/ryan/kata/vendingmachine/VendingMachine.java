@@ -87,33 +87,9 @@ public class VendingMachine {
         if (optionalProduct.isPresent()) {
 
             if (!changeInventory.canMakeChange()) {
-                //When we say EXACT CHANGE, we mean it so return all coins inserted if change cannot be made for selected item
-                if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) > 0) {
-                    coinsToReturn.addAll(insertedCoins);
-                    insertedCoins.clear();
-                    insertedCoinAmount = new BigDecimal("0.00");
-                } else if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) == 0) {
-                    itemDispensed = true;
-                    dispensedItem = optionalProduct.get();
-                } else {
-                    vendingMachineDisplay.itemPriceChecked(selection);
-                }
+                determineVendingWithNoChange(selection, optionalProduct);
             } else {
-
-                if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) >= 0) {
-                    itemDispensed = true;
-                    dispensedItem = optionalProduct.get();
-
-                    //Figure out change, if needed
-                    BigDecimal remainder = insertedCoinAmount.subtract(
-                            VendorMachinePricing.valueOf(selection).getPrice());
-
-                    if (remainder.compareTo(BigDecimal.ZERO) > 0) {
-                        coinsToReturn.addAll(changeInventory.getChangeFrom(remainder));
-                    }
-                } else {
-                    vendingMachineDisplay.itemPriceChecked(selection);
-                }
+                determineVendingWithChange(selection, optionalProduct);
             }
         } else {
             vendingMachineDisplay.itemSoldOut();
@@ -124,6 +100,37 @@ public class VendingMachine {
             insertedCoinAmount = new BigDecimal("0.00");
             changeInventory.addCoinsToChange(insertedCoins);
             insertedCoins.clear();
+        }
+    }
+
+    private void determineVendingWithNoChange(String selection, Optional<VMProducts> optionalProduct) {
+        //When we say EXACT CHANGE, we mean it so return all coins inserted if change cannot be made for selected item
+        if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) > 0) {
+            coinsToReturn.addAll(insertedCoins);
+            insertedCoins.clear();
+            insertedCoinAmount = new BigDecimal("0.00");
+        } else if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) == 0) {
+            itemDispensed = true;
+            dispensedItem = optionalProduct.get();
+        } else {
+            vendingMachineDisplay.itemPriceChecked(selection);
+        }
+    }
+
+    private void determineVendingWithChange(String selection, Optional<VMProducts> optionalProduct) {
+        if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) >= 0) {
+            itemDispensed = true;
+            dispensedItem = optionalProduct.get();
+
+            //Figure out change, if needed
+            BigDecimal remainder = insertedCoinAmount.subtract(
+                    VendorMachinePricing.valueOf(selection).getPrice());
+
+            if (remainder.compareTo(BigDecimal.ZERO) > 0) {
+                coinsToReturn.addAll(changeInventory.getChangeFrom(remainder));
+            }
+        } else {
+            vendingMachineDisplay.itemPriceChecked(selection);
         }
     }
 
