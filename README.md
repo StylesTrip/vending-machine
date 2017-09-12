@@ -7,7 +7,8 @@ Vending Machine
 
 To Run
 ------
-The Vending Machine kata was built with Maven.
+The Vending Machine kata was coded with Java 8 (1.8.0_20) and built with Maven (v. 3.2.5).
+
 The tests can be run by typing: "mvn test" at the command line.
 The code was developed with IntelliJ Community Edition 2017.1
 
