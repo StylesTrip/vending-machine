@@ -50,8 +50,10 @@ public class ChangeInventory {
      */
     public ArrayList<Coin> getChangeFrom(BigDecimal remainder) {
         ArrayList<Coin> coinsToReturn = new ArrayList<>();
+        BigDecimal tempRemainder;
 
         while (remainder.compareTo(BigDecimal.ZERO) > 0) {
+            tempRemainder = remainder;
             if (coinsForChange.contains(Coin.QUARTER)) {
                 if (remainder.compareTo(new BigDecimal("0.25")) >= 0) {
                     coinsForChange.remove(Coin.QUARTER);
@@ -73,6 +75,11 @@ public class ChangeInventory {
 
                     remainder = remainder.subtract(new BigDecimal("0.05"));
                 }
+            }
+
+            if (tempRemainder.equals(remainder)) {
+                //Dependent on having the right amount of change
+                throw new RuntimeException("Can not make change");
             }
         }
 
