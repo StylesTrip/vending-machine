@@ -8,9 +8,7 @@ import org.junit.Test;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
-/**
- * Created by Styles on 9/11/17.
- */
+
 public class ChangeInventoryTest {
     private ChangeInventory changeInventory;
 
