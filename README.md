@@ -1,14 +1,18 @@
 My solution to Pillar Technology's Vending Machine Kata
 Found here: https://github.com/PillarTechnology/kata-vending-machine
 
-#Vending Machine
+Vending Machine
+====================
 
-##To Run
+
+To Run
+------
 The Vending Machine kata was built with Maven.
 The tests can be run by typing: "mvn test" at the command line.
 The code was developed with IntelliJ Community Edition 2017.1
 
-##Thought Process
+Thought Process
+----------------
 I decided to attempt the Vending Machine kata because there seemed like a series of moving parts to it that
 would be a good challenge. I've never attempted a Vending Machine kata before so it was awesome to try something new.
 
