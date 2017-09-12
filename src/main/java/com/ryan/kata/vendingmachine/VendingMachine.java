@@ -92,6 +92,11 @@ public class VendingMachine {
                     coinsToReturn.addAll(insertedCoins);
                     insertedCoins.clear();
                     insertedCoinAmount = new BigDecimal("0.00");
+                } else if (insertedCoinAmount.compareTo(VendorMachinePricing.valueOf(selection).getPrice()) == 0) {
+                    itemDispensed = true;
+                    dispensedItem = optionalProduct.get();
+                } else {
+                    vendingMachineDisplay.itemPriceChecked(selection);
                 }
             } else {
 
@@ -117,6 +122,7 @@ public class VendingMachine {
         if (itemDispensed) {
             vendingMachineDisplay.itemDispensed();
             insertedCoinAmount = new BigDecimal("0.00");
+            changeInventory.addCoinsToChange(insertedCoins);
             insertedCoins.clear();
         }
     }

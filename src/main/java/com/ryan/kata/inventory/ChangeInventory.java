@@ -138,4 +138,8 @@ public class ChangeInventory {
 
         return true;
     }
+
+    public void addCoinsToChange(ArrayList<Coin> coins) {
+        coinsForChange.addAll(coins);
+    }
 }

@@ -425,6 +425,29 @@ public class VendingMachineTest {
         Assert.assertTrue(coinsReturned.size() == 3);
     }
 
+    @Test
+    public void test_coins_inserted_added_to_change_inventory() {
+        ArrayList<Coin> change = new ArrayList<>();
+        change.add(Coin.QUARTER);
+        change.add(Coin.DIME);
+        change.add(Coin.DIME);
+        change.add(Coin.DIME);
+        change.add(Coin.NICKEL);
+
+        ChangeInventory changeInventory = new ChangeInventory(change);
+        vendingMachine.addChangeInventory(changeInventory);
+
+        Assert.assertEquals("EXACT CHANGE ONLY", vendingMachine.display());
+
+        addCoinToVendingMachine(Coin.QUARTER, 2);
+        vendingMachine.selectProduct("B1");
+        vendingMachine.checkDispenser();
+
+        Assert.assertEquals("THANK YOU", vendingMachine.display());
+        //We have enough coins to make change now!
+        Assert.assertEquals("INSERT COIN", vendingMachine.display());
+    }
+
     private void addCoinToVendingMachine(Coin coin, int numberToAdd) {
         for (int i = 0; i < numberToAdd; i++) {
             vendingMachine.acceptCoin(coin);
